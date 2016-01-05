@@ -1,4 +1,5 @@
 public class Rover {
+    public static Plateau plateau;
     private CoOrdinate currentCoOrinate;
     private String orientation;
 
@@ -9,16 +10,20 @@ public class Rover {
 
     public void executeCommand(char m) {
         if (orientation == "E"){
-            currentCoOrinate = new CoOrdinate(currentCoOrinate.getX()+1, currentCoOrinate.getY());
+            if (plateau.getUpperRight().getX() != currentCoOrinate.getX())
+                currentCoOrinate = new CoOrdinate(currentCoOrinate.getX()+1, currentCoOrinate.getY());
         }
         else if (orientation == "W"){
-            currentCoOrinate = new CoOrdinate(currentCoOrinate.getX()-1, currentCoOrinate.getY());
+            if (plateau.getLowerLeft().getX() != currentCoOrinate.getX())
+                currentCoOrinate = new CoOrdinate(currentCoOrinate.getX()-1, currentCoOrinate.getY());
         }
         else if (orientation == "N"){
-            currentCoOrinate = new CoOrdinate(currentCoOrinate.getX(), currentCoOrinate.getY()+1);
+            if (plateau.getUpperRight().getY() != currentCoOrinate.getY())
+                currentCoOrinate = new CoOrdinate(currentCoOrinate.getX(), currentCoOrinate.getY()+1);
         }
         else if (orientation == "S"){
-            currentCoOrinate = new CoOrdinate(currentCoOrinate.getX(), currentCoOrinate.getY()-1);
+            if (plateau.getLowerLeft().getY() != currentCoOrinate.getY())
+                currentCoOrinate = new CoOrdinate(currentCoOrinate.getX(), currentCoOrinate.getY()-1);
         }
 
     }
