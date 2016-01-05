@@ -62,6 +62,54 @@ public class RoverTest {
         rover.executeCommand('M');
         assertEqualsCoOrdinate(new CoOrdinate(2, 0), rover.getCurrentCoOrinate());
     }
+    @Test
+    public void canTurnLeftFromSouth() {
+        Rover rover = createRover(5, 5, "S");
+        rover.executeCommand('L');
+        Assert.assertEquals("E", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnLeftFromNorth() {
+        Rover rover = createRover(5, 5, "N");
+        rover.executeCommand('L');
+        Assert.assertEquals("W", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnLeftFromEast() {
+        Rover rover = createRover(5, 5, "E");
+        rover.executeCommand('L');
+        Assert.assertEquals("N", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnLeftFromWest() {
+        Rover rover = createRover(5, 5, "W");
+        rover.executeCommand('L');
+        Assert.assertEquals("S", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnRightFromSouth() {
+        Rover rover = createRover(5, 5, "S");
+        rover.executeCommand('R');
+        Assert.assertEquals("W", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnRightFromNorth() {
+        Rover rover = createRover(5, 5, "N");
+        rover.executeCommand('R');
+        Assert.assertEquals("E", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnRightFromEast() {
+        Rover rover = createRover(5, 5, "E");
+        rover.executeCommand('R');
+        Assert.assertEquals("S", rover.getCurrentOrientation());
+    }
+    @Test
+    public void canTurnRightFromWest() {
+        Rover rover = createRover(5, 5, "W");
+        rover.executeCommand('R');
+        Assert.assertEquals("N", rover.getCurrentOrientation());
+    }
     private Rover createRover(int x, int y, String orientation) {
         CoOrdinate startingOrdinate = new CoOrdinate(x, y);
         Rover.plateau = new Plateau(new CoOrdinate(0,0), new CoOrdinate(5,5));
