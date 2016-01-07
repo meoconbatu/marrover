@@ -15,7 +15,7 @@ public class FileHelperTest {
     public void canReadPlateauInfo(){
 
         Plateau iPlateau = fileHelper.readPlateau();
-        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(4,6)), iPlateau);
+        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(5,5)), iPlateau);
     }
     @Test
     public void canReadTwoRoverInfos(){
@@ -27,7 +27,7 @@ public class FileHelperTest {
         expectedRovers.add(new Rover(new CoOrdinate(3,3), "E"));
         expectedRovers.get(1).setInstruction("MMRMMRMRRM");
         assertEqualsRover(expectedRovers.get(1), iRovers.get(1));
-        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(4,6)),Rover.plateau);
+        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(5,5)),Rover.plateau);
     }
     @Test
     public void canWriteCorrectOutputFile(){
