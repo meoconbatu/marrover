@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,19 +7,19 @@ import java.util.List;
 /**
  * Created by thanhmi on 1/6/16.
  */
-public class ReadInputTest {
+public class FileHelperTest {
 //    private String inputFileName = "inputMarRover.txt";
-    private ReadInput readInput = new ReadInput("inputMarRover.txt");
+    private FileHelper fileHelper = new FileHelper("inputMarRover.txt");
 
     @Test
     public void canReadPlateauInfo(){
 
-        Plateau iPlateau = readInput.readPlateau();
+        Plateau iPlateau = fileHelper.readPlateau();
         assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(4,6)), iPlateau);
     }
     @Test
     public void canReadTwoRoverInfos(){
-        List<Rover> iRovers = readInput.readRoverInfos();
+        List<Rover> iRovers = fileHelper.readRoverInfos();
         List<Rover> expectedRovers = new ArrayList<Rover>();
         expectedRovers.add(new Rover(new CoOrdinate(1,2), "N"));
         expectedRovers.get(0).setInstruction("LMLMLMLMM");
@@ -29,6 +28,18 @@ public class ReadInputTest {
         expectedRovers.get(1).setInstruction("MMRMMRMRRM");
         assertEqualsRover(expectedRovers.get(1), iRovers.get(1));
         assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(4,6)),Rover.plateau);
+    }
+    @Test
+    public void canWriteCorrectOutputFile(){
+        String result = "";
+        List<Rover> iRovers = fileHelper.readRoverInfos();
+        for (int i = 0; i < iRovers.size(); i++) {
+            iRovers.get(i).executeInstruction();
+            result += iRovers.get(i).getCurrentCoOrdinate().getX() + " "
+                    + iRovers.get(i).getCurrentCoOrdinate().getY() + " "
+                    + iRovers.get(i).getCurrentOrientation() + "\n";
+        }
+        fileHelper.writeResult(result);
     }
     private void assertEqualsPlateau(Plateau expected, Plateau actual) {
         assertEqualsCoOrdinate(expected.getLowerLeft(), actual.getLowerLeft());

@@ -7,9 +7,10 @@ import java.util.List;
 /**
  * Created by thanhmi on 1/6/16.
  */
-public class ReadInput {
+public class FileHelper {
     private BufferedReader bufferedReader;
-    public ReadInput(String inputFileName) {
+    private BufferedWriter bufferedWriter;
+    public FileHelper(String inputFileName) {
         File iFile = new File(inputFileName);
         FileReader fileReader = null;
         try {
@@ -18,9 +19,9 @@ public class ReadInput {
             e.printStackTrace();
         }
         bufferedReader = new BufferedReader(fileReader);
+
+
     }
-
-
     public Plateau readPlateau() {
         String firstLineOfInputFile = "";
         try {
@@ -49,5 +50,16 @@ public class ReadInput {
             e.printStackTrace();
         }
         return rovers;
+    }
+
+    public void writeResult(String result) {
+        try {
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream("outputMarRover.txt"), "utf-8"));
+            bufferedWriter.write(result);
+            bufferedWriter.flush(); bufferedWriter.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
