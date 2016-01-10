@@ -1,5 +1,3 @@
-import com.sun.xml.internal.fastinfoset.util.StringArray;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,56 +6,57 @@ import java.util.List;
  * Created by thanhmi on 1/6/16.
  */
 public class FileHelper {
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private String fileName;
+
     public FileHelper(String inputFileName) {
-        File iFile = new File(inputFileName);
+        fileName = inputFileName;
+    }
+    public List<String> readAllLines(){
+        BufferedReader bufferedReader = initialBufferedReader();
+        List<String> allLinesOfFile = new ArrayList<String>();
+        try{
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null){
+                allLinesOfFile.add(currentLine);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return allLinesOfFile;
+    }
+
+    private BufferedReader initialBufferedReader() {
+        File file = new File(fileName);
         FileReader fileReader = null;
         try {
-            fileReader = new FileReader(iFile);
+            fileReader = new FileReader(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        bufferedReader = new BufferedReader(fileReader);
-
-
+        return new BufferedReader(fileReader);
     }
-    public Plateau readPlateau() {
-        String firstLineOfInputFile = "";
+    private BufferedWriter initialBufferedWritter() {
         try {
-            firstLineOfInputFile = bufferedReader.readLine();
-        } catch (IOException e) {
+           return new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(fileName), "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String[] firstLineOfInputFileArray = firstLineOfInputFile.split(" ");
-        CoOrdinate lowerLeft = new CoOrdinate(0,0);
-        CoOrdinate upperRight = new CoOrdinate(Integer.parseInt(firstLineOfInputFileArray[0]), Integer.parseInt(firstLineOfInputFileArray[1]));
-        return new Plateau(lowerLeft, upperRight);
+        return null;
     }
-    public List<Rover> readRoverInfos() {
-        String positionRover;
-        String instruction;
-        List<Rover> rovers = new ArrayList<Rover>();
-        try {
-            Rover.plateau = readPlateau();
-            while((positionRover = bufferedReader.readLine()) != null && (instruction = bufferedReader.readLine()) != null){
-                String[] positionRoverArray = positionRover.split(" ");
-                Rover rover = new Rover(new CoOrdinate(Integer.parseInt(positionRoverArray[0]), Integer.parseInt(positionRoverArray[1])), positionRoverArray[2]);
-                rover.setInstruction(instruction);
-                rovers.add(rover);
-            }
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return rovers;
+    public String readLineAtIndex(int i) {
+        List<String> allLinesOfFile = readAllLines();
+        return allLinesOfFile.get(i-1);
     }
 
-    public void writeResult(String result) {
+    public void write(String content) {
+        BufferedWriter bufferedWriter = initialBufferedWritter();
         try {
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("outputMarRover.txt"), "utf-8"));
-            bufferedWriter.write(result);
-            bufferedWriter.flush(); bufferedWriter.close();
+            bufferedWriter.write(content);
+            bufferedWriter.flush();
+            bufferedWriter.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

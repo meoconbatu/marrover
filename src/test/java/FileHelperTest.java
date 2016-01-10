@@ -8,38 +8,29 @@ import java.util.List;
  * Created by thanhmi on 1/6/16.
  */
 public class FileHelperTest {
-//    private String inputFileName = "inputMarRover.txt";
-    private FileHelper fileHelper = new FileHelper("inputMarRover.txt");
+    private FileHelper iFileHelper = new FileHelper("inputMarRover.txt");
+    private FileHelper oFileHelper = new FileHelper("outputMarRover.txt");
 
     @Test
-    public void canReadPlateauInfo(){
+    public void canReadFirstLine(){
+        String firstLine = iFileHelper.readLineAtIndex(1);
+        Assert.assertEquals("5 5", firstLine);
+    }
+    @Test
+    public void canReadSecondLine(){
+        String seconddLine = iFileHelper.readLineAtIndex(2);
+        Assert.assertEquals("1 2 N", seconddLine);
+    }
 
-        Plateau iPlateau = fileHelper.readPlateau();
-        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(5,5)), iPlateau);
-    }
     @Test
-    public void canReadTwoRoverInfos(){
-        List<Rover> iRovers = fileHelper.readRoverInfos();
-        List<Rover> expectedRovers = new ArrayList<Rover>();
-        expectedRovers.add(new Rover(new CoOrdinate(1,2), "N"));
-        expectedRovers.get(0).setInstruction("LMLMLMLMM");
-        assertEqualsRover(expectedRovers.get(0), iRovers.get(0));
-        expectedRovers.add(new Rover(new CoOrdinate(3,3), "E"));
-        expectedRovers.get(1).setInstruction("MMRMMRMRRM");
-        assertEqualsRover(expectedRovers.get(1), iRovers.get(1));
-        assertEqualsPlateau(new Plateau(new CoOrdinate(0,0), new CoOrdinate(5,5)),Rover.plateau);
-    }
-    @Test
-    public void canWriteCorrectOutputFile(){
-        String result = "";
-        List<Rover> iRovers = fileHelper.readRoverInfos();
-        for (int i = 0; i < iRovers.size(); i++) {
-            iRovers.get(i).executeInstruction();
-            result += iRovers.get(i).getCurrentCoOrdinate().getX() + " "
-                    + iRovers.get(i).getCurrentCoOrdinate().getY() + " "
-                    + iRovers.get(i).getCurrentOrientation() + "\n";
-        }
-        fileHelper.writeResult(result);
+    public void canWriteContent(){
+        String content = "1 3 N\n5 1 E";
+        oFileHelper.write(content);
+        String firstLine = oFileHelper.readLineAtIndex(1);
+        String secondLine = oFileHelper.readLineAtIndex(2);
+        Assert.assertEquals("1 3 N", firstLine);
+        Assert.assertEquals("5 1 E", secondLine);
+
     }
     private void assertEqualsPlateau(Plateau expected, Plateau actual) {
         assertEqualsCoOrdinate(expected.getLowerLeft(), actual.getLowerLeft());

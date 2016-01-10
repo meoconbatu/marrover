@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class Plateau {
     private final CoOrdinate lowerLeft;
     private final CoOrdinate upperRight;
@@ -8,23 +6,17 @@ public class Plateau {
         this.lowerLeft = lowerLeft;
         this.upperRight = upperRight;
     }
-    public CoOrdinate getUpperRight(){
+
+    public Plateau(Integer x, Integer y) {
+        this.lowerLeft = new CoOrdinate(0, 0);
+        this.upperRight = new CoOrdinate(x, y);
+    }
+
+    public CoOrdinate getUpperRight() {
         return upperRight;
     }
+
     public CoOrdinate getLowerLeft() {
         return lowerLeft;
-    }
-    public static void main(String [] args)
-    {
-        String result = "";
-        FileHelper fileHelper = new FileHelper("inputMarRover.txt");
-        List<Rover> iRovers = fileHelper.readRoverInfos();
-        for (int i = 0; i < iRovers.size(); i++) {
-            iRovers.get(i).executeInstruction();
-            result += iRovers.get(i).getCurrentCoOrdinate().getX() + " "
-                    + iRovers.get(i).getCurrentCoOrdinate().getY() + " "
-                    + iRovers.get(i).getCurrentOrientation() + "\n";
-        }
-        fileHelper.writeResult(result);
     }
 }
