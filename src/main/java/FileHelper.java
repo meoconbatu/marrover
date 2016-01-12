@@ -11,15 +11,16 @@ public class FileHelper {
     public FileHelper(String inputFileName) {
         fileName = inputFileName;
     }
-    public List<String> readAllLines(){
+
+    public List<String> readAllLines() {
         BufferedReader bufferedReader = initialBufferedReader();
         List<String> allLinesOfFile = new ArrayList<String>();
-        try{
+        try {
             String currentLine;
-            while ((currentLine = bufferedReader.readLine()) != null){
+            while ((currentLine = bufferedReader.readLine()) != null) {
                 allLinesOfFile.add(currentLine);
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return allLinesOfFile;
@@ -35,9 +36,10 @@ public class FileHelper {
         }
         return new BufferedReader(fileReader);
     }
+
     private BufferedWriter initialBufferedWritter() {
         try {
-           return new BufferedWriter(new OutputStreamWriter(
+            return new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(fileName), "utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -46,9 +48,10 @@ public class FileHelper {
         }
         return null;
     }
+
     public String readLineAtIndex(int i) {
         List<String> allLinesOfFile = readAllLines();
-        return allLinesOfFile.get(i-1);
+        return allLinesOfFile.get(i - 1);
     }
 
     public void write(String content) {
